@@ -8,6 +8,16 @@ table, td, th {
     margin: auto;
 }
 
+.plan__20{
+    position: relative;
+    top: -3080px;
+}
+
+.plan__21{
+    position: relative;
+    top: -6160px;
+}
+
 .row td{
     height :50px;
     WIDTH :30px;
