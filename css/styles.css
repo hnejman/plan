@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    color: #0B3142;
 }
 
 .data-storage{
@@ -19,14 +20,39 @@
 .menu__btn{
     border: none;
     border-radius: 5%;
-    height: 15px;
     min-width: 45px;
+    background-color: #FFCAB1;
+    padding: 5px 15px;
+    cursor: pointer;
 }
 
 .menu__btn--active{
-    background-color: #17E339;
+    background-color: #5EFC8D;
 }
 
 .container{
     display: flex;
+}
+
+.legend div{
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 80px auto ;
+}
+
+.data__display div{
+    position: relative;
+    display: grid;
+    opacity: 0.5;
+    grid-template-columns: 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px 45px;
+}
+
+.data__display div:nth-child(2){
+    top:  -1120px;
+    opacity: 0,8;
+}
+
+.data__display div div{
+    height: 18px;
+    border: solid #000000 1px;
 }
