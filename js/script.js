@@ -1,6 +1,6 @@
 const request = new XMLHttpRequest();
 
-request.open('GET', 'https://www.wtc.wat.edu.pl/Plany/WTC20NI1S1.htm', true);
+request.open('GET', 'https://cors-anywhere.herokuapp.com/https://www.wtc.wat.edu.pl/Plany/WTC20NI1S1.htm', true);
 request.onload = function() {
   if (request.status >= 200 && request.status < 400) {
     // Pobieramy HTML ze strony
