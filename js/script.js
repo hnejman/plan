@@ -1,30 +1,41 @@
-const request = new XMLHttpRequest();
+const http = require('http');
+const https = require('https');
+const cheerio = require('cheerio');
+const followRedirects = require('follow-redirects').http;
 
-request.open('GET', 'https://cors-anywhere.herokuapp.com/https://www.wtc.wat.edu.pl/Plany/WTC20NI1S1.htm', true);
-request.onload = function() {
-  if (request.status >= 200 && request.status < 400) {
-    // Pobieramy HTML ze strony
-    const html = request.responseText;
-    // Tworzymy element div i ustawiamy mu HTML pobrany ze strony
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    // Szukamy tabelki na stronie
-    const table = div.querySelector('table');
-    // Jeśli tabelka została znaleziona
-    if (table) {
-      // Zamieniamy ją na div'y
-      const newDiv = document.createElement('div');
-      newDiv.innerHTML = table.innerHTML;
-      // Wstawiamy div'y zamiast tabelki
-      table.parentNode.replaceChild(newDiv, table);
-    }
-  } else {
-    console.error('Wystąpił błąd podczas pobierania strony');
-  }
-};
+const url = 'http://www.wtc.wat.edu.pl/Plany/WTC20NI1S1.htm';
 
-request.onerror = function() {
-  console.error('Wystąpił błąd podczas pobierania strony');
-};
+followRedirects.get(url, (res) => {
+  let html = '';
 
-request.send();
+  res.on('data', (chunk) => {
+    html += chunk;
+  });
+
+  res.on('end', () => {
+    const $ = cheerio.load(html);
+    const title = $('title').text();
+
+    const server = http.createServer((req, res) => {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(`
+        <html>
+          <head>
+            <title>${title}</title>
+          </head>
+          <body>
+            <h1>${title}</h1>
+            <p>This is a simple web page created using Node.js</p>
+          </body>
+        </html>
+      `);
+      res.end();
+    });
+
+    server.listen(3000, () => {
+      console.log('Server running on port 3000');
+    });
+  });
+}).on('error', (err) => {
+  console.log('Error: ' + err.message);
+});
